@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: lms_dev
+  username: hanymoh
+  password: root
+
+test:
+  <<: *default
+  database: lms_test
+  username: hanymoh
+  password: root
+
+production:
+  <<: *default
+  database: lms_production
+  username: deploy
+  password: <%= ENV['EVENT_MANAGER_DATABASE_PASSWORD'] %>
