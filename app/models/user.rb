@@ -6,5 +6,9 @@ class User < ApplicationRecord
   belongs_to :subscription
   has_many :borrows
 
+  def admin?
+    true
+  end
+
   scope :customers, -> { 'where is_admin = false' }
 end

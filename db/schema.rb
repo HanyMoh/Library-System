@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_17_143448) do
+ActiveRecord::Schema.define(version: 2019_10_17_152345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 2019_10_17_143448) do
     t.index ["topic_id"], name: "index_books_on_topic_id"
   end
 
+  create_table "borrows", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "book_id", null: false
+    t.date "st_date"
+    t.integer "duration_by_days", default: 1
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["book_id"], name: "index_borrows_on_book_id"
+    t.index ["user_id"], name: "index_borrows_on_user_id"
+  end
+
   create_table "publishers", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -59,6 +70,7 @@ ActiveRecord::Schema.define(version: 2019_10_17_143448) do
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "level", default: 1
   end
 
   create_table "topics", force: :cascade do |t|
@@ -90,5 +102,7 @@ ActiveRecord::Schema.define(version: 2019_10_17_143448) do
   add_foreign_key "books", "book_types"
   add_foreign_key "books", "publishers"
   add_foreign_key "books", "topics"
+  add_foreign_key "borrows", "books"
+  add_foreign_key "borrows", "users"
   add_foreign_key "users", "subscriptions"
 end
